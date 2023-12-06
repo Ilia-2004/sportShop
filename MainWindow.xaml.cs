@@ -1,17 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using static sportShop.DBContext;
 
 namespace sportShop
 {
@@ -23,6 +13,29 @@ namespace sportShop
         public MainWindow()
         {
             InitializeComponent();
+
+            // добавление данных
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // создаем два объекта User
+                User user1 = new User { Name = "Tom", Age = 33 };
+                User user2 = new User { Name = "Alice", Age = 26 };
+
+                // добавляем их в бд
+                db.Users.AddRange(user1, user2);
+                db.SaveChanges();
+            }
+            // получение данных
+            using (ApplicationContext db = new ApplicationContext())
+            {
+                // получаем объекты из бд и выводим на консоль
+                var users = db.Users.ToList();
+                Console.WriteLine("Users list:");
+                foreach (User u in users)
+                {
+                    MessageBox.Show("Unable to save file, try again.");
+                }
+            }
         }
     }
 }
