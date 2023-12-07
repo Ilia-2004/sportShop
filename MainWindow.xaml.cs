@@ -16,5 +16,10 @@ namespace sportShop
 
            
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace sportShop
 {
-  internal class DBContext
+  internal abstract class DBContext
   {
     /// <summary>
     /// подключение базы данных
@@ -35,8 +35,8 @@ namespace sportShop
     {
       [Key]
       public int Id { get; set; }
-      public string Name { get; set; }
-      public string Type { get; set; }
+      public required string Name { get; set; }
+      public required string Type { get; set; }
       public double Price { get; set; }
     }
     #endregion
