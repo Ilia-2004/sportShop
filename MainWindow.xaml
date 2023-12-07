@@ -7,6 +7,18 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <!--heading-->
+        <TextBlock HorizontalAlignment="Center" Margin="0,94,0,0" TextWrapping="Wrap" Text="Autorization" VerticalAlignment="Top" Height="52" Width="208" FontSize="36" FontFamily="Monserat"/>
 
+        <!--login input field-->
+        <TextBlock HorizontalAlignment="Left" Margin="258,169,0,0" TextWrapping="Wrap" Text="Login" VerticalAlignment="Top" Height="26" Width="130" FontSize="24" FontFamily="Monserat" RenderTransformOrigin="0.439,1.179"/>
+        <TextBox x:Name="Login" HorizontalAlignment="Center" Margin="0,196,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="286" Height="30" FontSize="22"/>
+
+        <!--password input field-->
+        <TextBlock HorizontalAlignment="Left" Margin="260,237,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="28" Width="150" FontSize="24" FontFamily="Monserat"/>
+        <PasswordBox x:Name="Password" MaxLength="64" MinHeight="30" Margin="257,270,257,134" Width="286" FontSize="22"/>
+
+        <!--verification button-->
+        <Button Content="Send" HorizontalAlignment="Center" Margin="0,326,0,0" VerticalAlignment="Top" Height="43" Width="192" FontSize="22" Click="Button_Click" FontFamily="Monserat" Background="#FFD48E28"/>
     </Grid>
 </Window>

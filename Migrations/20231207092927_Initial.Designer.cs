@@ -11,7 +11,7 @@ using sportShop;
 namespace sportShop.Migrations
 {
     [DbContext(typeof(DBContext.ApplicationContext))]
-    [Migration("20231207084911_Initial")]
+    [Migration("20231207092927_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -23,6 +23,30 @@ namespace sportShop.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("sportShop.DBContext+Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
+                });
 
             modelBuilder.Entity("sportShop.DBContext+User", b =>
                 {
@@ -36,6 +60,7 @@ namespace sportShop.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
