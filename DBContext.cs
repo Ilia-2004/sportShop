@@ -11,10 +11,15 @@ namespace sportShop
     public class ApplicationContext : DbContext
     {
       public DbSet<User> Users { get; set; } = null!;
-      public DbSet<Product> Products {  get; set; } = null!; 
+
+      public DbSet<Product> Products {  get; set; } = null!;
+
+      public DbSet<Fabrik> Fanches { get; set; } = null;
+      public DbSet<SaleProduct> SaleProducts { get; set; } = null;
+        public DbSet<Client> clients { get; set; } = null!;
  
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=12345Qq");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=52");
     }
 
     /// <summary>
@@ -38,7 +43,39 @@ namespace sportShop
       public required string Name { get; set; }
       public required string Type { get; set; }
       public double Price { get; set; }
+      public int   Fabrik { get; set; }
     }
-    #endregion
-  }
+   
+    public class Fabrik
+     {
+            [Key]
+            public int Id { get; set; }
+            public required string Name { get; set; }
+            public required string Type { get; set; }
+            public double Price { get; set; }
+
+
+     }
+    public class SaleProduct
+        {
+
+            [Key]
+            public int Id { get; set; }
+            public required string Name { get; set; }
+            public required string Type { get; set; }
+
+        }
+    public class Client
+        {
+
+            [Key]
+            public int Id { get; set; }
+            public required string Name { get; set; }
+            = "client";
+            public required string Type { get; set; } = "client";
+
+        }
+   #endregion
+
+    }
 }
