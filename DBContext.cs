@@ -10,9 +10,9 @@ namespace sportShop
     /// </summary>
     public class ApplicationContext : DbContext
     {
-      /* коннект к базы данных */
+      /* коннект к базы данных */ 
       protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=52");
+        optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=12345Qq");
 
       /// <summary>
       /// вызов таблиц
@@ -35,7 +35,7 @@ namespace sportShop
     {
       [Key]
       public int Id { get; set; }
-      public string Name { get; set; }
+      public required string Name { get; set; }
       public int Age { get; set; }
     }
 

@@ -11,7 +11,7 @@ using sportShop;
 namespace sportShop.Migrations
 {
     [DbContext(typeof(DBContext.ApplicationContext))]
-    [Migration("20231207175442_Initial")]
+    [Migration("20231208052139_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
