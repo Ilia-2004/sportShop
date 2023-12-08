@@ -1,4 +1,6 @@
-﻿namespace sportShop.Models
+﻿using System.Collections.Generic;
+
+namespace sportShop.Models
 {
     /// <summary>
     /// описание таблиц базы
@@ -28,7 +30,6 @@
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Type { get; set; }
-        public double Price { get; set; }
     }
 
     /* таблица скидкок на продукты */
@@ -45,6 +46,7 @@
         public int Id { get; set; }
         public required string Name { get; set; }
         public required string Type { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
     #endregion
 }

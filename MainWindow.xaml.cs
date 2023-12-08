@@ -1,30 +1,14 @@
-﻿using System.Windows;
-using System.Collections.Generic;
-using static sportShop.DBContext;
-using sportShop.Models;
-using System.Linq;
+﻿using sportShop.Pages;
+using System.Windows;
 
-namespace sportShop
+namespace sportShop;
+
+public partial class MainWindow : Window
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
+    public MainWindow()
     {
-        private ApplicationContext _db = new ApplicationContext();
+        InitializeComponent();
 
-        public MainWindow()
-        {
-            InitializeComponent();
-
-            List<Product> products = _db.Products.ToList();
-
-            dataGrid.ItemsSource = products;
-          
-        }
-
-      
-
+       MainFrame.Navigate(new AutorizationPage());
     }
-
 }
