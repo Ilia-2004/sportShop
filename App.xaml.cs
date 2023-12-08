@@ -8,5 +8,7 @@ namespace sportShop
     public partial class App : Application
     {
         public bool IsAdminLogged = false;
+        public bool IsClientLogged = false;
+        public bool IsManagerLogged = false;
     }
 }

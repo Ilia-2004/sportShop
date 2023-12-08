@@ -7,11 +7,28 @@ namespace sportShop.Models
     /// </summary>
     #region Tabels
     /* таблица пользователей */
-    public class User
+    public class Client
     {
         public int Id { get; set; }
         public required string Name { get; set; }
         public int Age { get; set; }
+        public required string Login { get; set; }
+        public required string Password { get; set; }
+        public ICollection<Product>? Products { get; set; }
+    }
+
+    public class Manager
+    {
+        public int Id { get; set; }
+        public required string Login { get; set; }
+        public required string Password { get; set; }
+    }
+
+    public class Administraitor
+    {
+        public int Id { get; set; }
+        public required string Login { get; set; }
+        public required string Password { get; set; }
     }
 
     /* таблица продуктов */
@@ -19,9 +36,10 @@ namespace sportShop.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required string Type { get; set; }
+        public required ProductTypes Type { get; set; }
         public double Price { get; set; }
-        public int Fabrik { get; set; }
+        public int? FabrikId { get; set; }
+        public Fabrik? Fabrik { get; set; }
     }
 
     /* таблица производителей */
@@ -29,24 +47,14 @@ namespace sportShop.Models
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required string Type { get; set; }
+        public required string Type { get; set; }   
+        public ICollection<Product> ? Products { get; set; }
     }
 
-    /* таблица скидкок на продукты */
-    public class SaleProduct
+    public class ProductTypes
     {
         public int Id { get; set; }
         public required string Name { get; set; }
-        public required string Type { get; set; }
-    }
-
-    /* таблица клиентов */
-    public class Client
-    {
-        public int Id { get; set; }
-        public required string Name { get; set; }
-        public required string Type { get; set; }
-        public ICollection<Product>? Products { get; set; }
     }
     #endregion
 }

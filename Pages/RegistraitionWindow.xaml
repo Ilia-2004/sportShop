@@ -1,0 +1,33 @@
+﻿<Page x:Class="sportShop.Pages.RegistraitionWindow"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:sportShop.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RegistraitionWindow">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="55"/>
+        </Grid.RowDefinitions>
+
+        <ComboBox x:Name="ChooseRoleToRegisrationCmbBx" Height="30" Width="75" HorizontalAlignment="Left" VerticalAlignment="Top" SelectionChanged="ChooseRoleToRegisrationCmbBx_SelectionChanged"/>
+
+        <UniformGrid Grid.Row="0">
+            <TextBox x:Name="NameTxtBlck" Height="30" Width="75"/>
+            <TextBox x:Name="LoginTxtBlck" Height="30" Width="75"/>
+            <TextBox x:Name="AgeTxtBlck" Height="30" Width="75"/>
+            <PasswordBox x:Name="PasswordBox" Height="30" Width="75"/>
+            <PasswordBox x:Name="SubmitPasswordBox" Height="30" Width="75"/>
+        </UniformGrid>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="AddManagerButt" Content="AddManager" Click="AddManagerButt_Click" Height="55" Width="75" Margin="0 0 10 0"/>
+            <Button x:Name="AddClientButt" Content="AddClient" Click="AddClientButt_Click" Height="55" Width="75" Margin="0 0 10 0"/>
+            <Button x:Name="AddAdministraitorButt" Content="AddAdmin"  Click="AddAdministraitorButt_Click" Height="55" Width="75" Margin="0 0 10 0"/>
+        </StackPanel>
+    </Grid>
+</Page>

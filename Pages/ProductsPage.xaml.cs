@@ -9,12 +9,12 @@ namespace sportShop.Pages
 {
     public partial class ProductsPage : Page
     {
-        private readonly ApplicationContext _dbContext;
+        private readonly DBContext _dbContext;
         private List<Product> products;
 
         public ProductsPage()
         {
-            _dbContext = new ApplicationContext();
+            _dbContext = new DBContext();
 
             InitializeComponent();
             SetAccessToDataGrid();
@@ -31,7 +31,7 @@ namespace sportShop.Pages
 
         private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            _dbContext.Products.Add(new Product() { Name = $"Product{_dbContext.Products.Count()}", Type = "None" });
+            _dbContext.Products.Add(new Product() { Name = $"Product{_dbContext.Products.Count()}", Type = _dbContext.ProductTypes.First() }) ;
            
             SaveDbAndRefreshGrid();
         }
