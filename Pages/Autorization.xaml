@@ -4,8 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="Autorization" Height="450" Width="800">
-    <Grid Height="433" VerticalAlignment="Top">
+        Title="Sport Shop" Height="450" Width="800">
+    <Grid Background="Lavender" Height="450" VerticalAlignment="Top">
         <!-- агаловок -->
         <TextBlock HorizontalAlignment="Center" Margin="0,94,0,0" TextWrapping="Wrap" Text="Autorization" VerticalAlignment="Top" Height="41" Width="208" FontSize="36" FontFamily="Monserat"/>
 
@@ -14,10 +14,10 @@
         <TextBox x:Name="Login" HorizontalAlignment="Center" Margin="0,166,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="286" Height="30" FontSize="22"/>
 
         <!-- строка ввода пароля -->
-        <TextBlock HorizontalAlignment="Left" Margin="257,196,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="28" Width="102" FontSize="24" FontFamily="Monserat"/>
-        <PasswordBox x:Name="Password" MaxLength="64" MinHeight="30" Margin="257,225,257,185" Width="286" FontSize="22"/>
+        <TextBlock HorizontalAlignment="Left" Margin="257,196,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="28" Width="102" FontSize="24" FontFamily="Monserat"  RenderTransformOrigin="0.439,1.179"/>
+        <PasswordBox x:Name="Password" HorizontalAlignment="Center"  Margin="0,225,0,0" VerticalAlignment="Top" Width="286" Height="30" FontSize="22"/>
 
         <!-- кнопка проверки -->
-        <Button Content="Send" HorizontalAlignment="Center" Margin="0,260,0,0" VerticalAlignment="Top" Height="43" Width="192" FontSize="22" Click="_buttonClick" FontFamily="Monserat" Background="#FFD48E28"/>
+        <Button Content="Send" HorizontalAlignment="Left" Margin="312,307,0,0" VerticalAlignment="Top" Height="42" Width="192" FontSize="22" Click="Button_Click" FontFamily="Monserat" Background="#FFD48E28"/>
     </Grid>
 </Window>

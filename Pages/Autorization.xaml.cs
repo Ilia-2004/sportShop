@@ -22,7 +22,7 @@ namespace sportShop.Pages
     public Autorization() => InitializeComponent();
 
     /* метод для кнопки входа */
-    private void _buttonClick(object sender, RoutedEventArgs e)
+    private void Button_Click(object sender, RoutedEventArgs e)
     {
       if (Login.Text == LineKey && Password.Password == LineKey)
       {

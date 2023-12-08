@@ -15,7 +15,7 @@ namespace sportShop
         optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=12345Qq");
 
       /// <summary>
-      /// вызов таблиц
+      /// добавление таблиц
       /// </summary>
       #region CallTabeles
       public DbSet<User> Users { get; set; } = null!;
