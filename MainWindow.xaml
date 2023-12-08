@@ -3,21 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      
-        
         mc:Ignorable="d"
         Title="Sport shop" Height="500" Width="900">
+
     <Grid Background="Lavender">
-        <DataGrid x:Name="dataGrid" ItemsSource="{Binding Items}" 
+        <DataGrid x:Name="dataGrid" ItemsSource="{Binding products}" 
                   AutoGenerateColumns="False" SelectionMode="Extended" CanUserResizeRows="False" 
-                  CanUserSortColumns="True" CanUserAddRows="False" Margin="0,0,0,85">
+                  CanUserSortColumns="True" CanUserAddRows="False" Height="200px">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Binding="{Binding ProductID}" Width="*" MinWidth="20" IsReadOnly="True"/>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="*" MinWidth="20" IsReadOnly="True"/>
                 <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" MinWidth="100" IsReadOnly="True"/>
-                <DataGridTextColumn Header="Описание" Binding="{Binding Description}" Width="*" MinWidth="250" IsReadOnly="True" />
+                <DataGridTextColumn Header="Описание" Binding="{Binding Type}" Width="*" MinWidth="250" IsReadOnly="True" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*" MinWidth="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Количество" Binding="{Binding StockQuantity}" Width="*" MinWidth="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Автор" Binding="{Binding ManufacturerID}" Width="*" MinWidth="150" IsReadOnly="True" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding Fabrik}" Width="*" MinWidth="50" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

@@ -1,7 +1,8 @@
 ﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
+using System.Collections.Generic;
 using static sportShop.DBContext;
+using sportShop.Models;
+using System.Linq;
 
 namespace sportShop
 {
@@ -16,6 +17,14 @@ namespace sportShop
         {
             InitializeComponent();
 
+            List<Product> products = _db.Products.ToList();
+
+            dataGrid.ItemsSource = products;
+          
         }
+
+      
+
     }
+
 }

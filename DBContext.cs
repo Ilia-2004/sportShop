@@ -1,10 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+using sportShop.Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace sportShop
 {
-  internal abstract class DBContext
+    internal class DBContext
   {
+
     /// <summary>
     /// подключение базы данных
     /// </summary>
@@ -18,65 +21,16 @@ namespace sportShop
       /// добавление таблиц
       /// </summary>
       #region CallTabeles
-      public DbSet<User> Users { get; set; } = null!;
-      public DbSet<Product> Products {  get; set; } = null!;
-      public DbSet<Fabrik> Fanches { get; set; } = null!;
-      public DbSet<SaleProduct> SaleProducts { get; set; } = null!;
-      public DbSet<Client> clients { get; set; } = null!;
+      public DbSet<User> Users { get; set; }
+      public DbSet<Product> Products { get; set; }
+      public DbSet<Fabrik> Fanches { get; set; }
+      public DbSet<SaleProduct> SaleProducts { get; set; } 
+      public DbSet<Client> clients { get; set; }
+      #endregion
+
+      #region Methods 
+      public List<Product> GetProducts() => Products.ToList();
       #endregion
     }
-
-    /// <summary>
-    /// описание таблиц базы
-    /// </summary>
-    #region Tabels
-    /* таблица пользователей */
-    public class User
-    {
-      [Key]
-      public int Id { get; set; }
-      public required string Name { get; set; }
-      public int Age { get; set; }
-    }
-
-    /* таблица продуктов */
-    public class Product 
-    {
-      [Key]
-      public int Id { get; set; }
-      public required string Name { get; set; }
-      public required string Type { get; set; }
-      public double Price { get; set; }
-      public int   Fabrik { get; set; }
-    }
-   
-    /* таблица производителей */
-    public class Fabrik
-    {
-      [Key]
-      public int Id { get; set; }
-      public required string Name { get; set; }
-      public required string Type { get; set; }
-      public double Price { get; set; }
-    }
-
-    /* таблица скидкок на продукты */
-    public class SaleProduct
-    {
-      [Key]
-      public int Id { get; set; }
-      public required string Name { get; set; }
-      public required string Type { get; set; }
-    }
-
-    /* таблица клиентов */
-    public class Client
-    {
-      [Key]
-      public int Id { get; set; }
-      public required string Name { get; set; }
-      public required string Type { get; set; }
-    }
-    #endregion
   }
 }
