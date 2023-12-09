@@ -1,4 +1,5 @@
-﻿using sportShop.Pages.GeneralPages;
+﻿using sportShop.Models;
+using sportShop.Pages.GeneralPages;
 
 namespace sportShop;
 
@@ -9,29 +10,31 @@ public partial class MainWindow
         InitializeComponent();
         MainFrame.NavigationService.Navigate(new AuthorizationView());
         //AddSDf();
+        AddMembers();
+        ASDASD();
     }
 
-    // public void AddMembers()
-    // {
-    //     var dbContext = new DBContext();
+    public void AddMembers()
+    {
+        var dbContext = new DbContext();
+
+        dbContext.ProductTypes.Add(new ProductTypes() { Name = "Tapok" });
+        dbContext.SaveChanges();
+    }
     //
-    //     dbContext.ProductTypes.Add(new ProductTypes() {Name = "Tapok"});
-    //     dbContext.SaveChanges();
-    // }
+    private void AddSDf()
+    {
+        var dbContext = new DbContext();
+
+        dbContext.Administrators.Add(new Administrator() { Login = "Admin", Password = "Admin" });
+        dbContext.SaveChanges();
+    }
     //
-    // private void AddSDf()
-    // {
-    //     var dbContext = new DBContext();
-    //
-    //     dbContext.Managers.Add(new Manager() {Login = "Manager", Password = "Manager"});
-    //     dbContext.SaveChanges();
-    // }
-    //
-    // private void ASDASD()
-    // {
-    //     var dbContext = new DBContext();
-    //
-    //     dbContext.Fabrics.Add(new Fabric() {Name = "Fabrik"});
-    //     dbContext.SaveChanges();
-    // }
+    private void ASDASD()
+    {
+        var dbContext = new DbContext();
+
+        dbContext.Fabrics.Add(new Fabric() { Name = "Fabrik" });
+        dbContext.SaveChanges();
+    }
 }
