@@ -7,6 +7,6 @@
         Title="Sport shop" Height="500" Width="900">
 
     <Grid Background="Lavender">
-        <Frame x:Name="MainFrame"/>
+        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>
