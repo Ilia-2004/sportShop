@@ -33,9 +33,13 @@
                                     IsReadOnly="True" />
                 <DataGridTextColumn Header="Описание" Binding="{Binding ProductType.Name}" Width="*" MinWidth="250"
                                     IsReadOnly="True" />
-                <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*" MinWidth="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Производитель" Binding="{Binding Fabric.Name}" Width="*" MinWidth="50"
+                <DataGridTextColumn Header="Цена" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="Скидка" Binding="{Binding Sale, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="50"
                                     IsReadOnly="True" />
+                <DataGridTextColumn Header="Цена со скидкой" Binding="{Binding DiscountedPrice, UpdateSourceTrigger=PropertyChanged}" Width="*" MinWidth="50"
+                                    IsReadOnly="True" /> 
+                <DataGridTextColumn Header="Производитель" Binding="{Binding Fabric.Name}" Width="*" MinWidth="50"
+                                    IsReadOnly="True" /> 
             </DataGrid.Columns>
         </DataGrid>
         

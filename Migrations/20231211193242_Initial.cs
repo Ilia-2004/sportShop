@@ -90,6 +90,8 @@ namespace sportShop.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     ProductTypeId = table.Column<int>(type: "integer", nullable: false),
                     Price = table.Column<double>(type: "double precision", nullable: false),
+                    Sale = table.Column<int>(type: "integer", nullable: false),
+                    DiscountedPrice = table.Column<double>(type: "double precision", nullable: false),
                     FabricId = table.Column<int>(type: "integer", nullable: false),
                     ClientId = table.Column<int>(type: "integer", nullable: true)
                 },

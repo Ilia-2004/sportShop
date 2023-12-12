@@ -12,7 +12,7 @@ public class DbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     /* коннект к базы данных */
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-      optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=52");
+      optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=Boec_UFC1123");
 
     /// <summary>
     /// добавление таблиц

@@ -6,16 +6,22 @@
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300" x:Name="ClientBackPage">
-    <UserControl.DataContext>
+    
+    <d:DesignData>
         <viewModels:ClientBasketViewModel/>
-    </UserControl.DataContext> 
+    </d:DesignData>
 
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <DataGrid Grid.Column="1" ItemsSource="{Binding Products}"
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Products}"
                   AutoGenerateColumns="False" SelectionMode="Extended" CanUserResizeRows="False"
                   CanUserSortColumns="True" CanUserAddRows="False">
             <DataGrid.Columns>
@@ -36,8 +42,17 @@
                                     IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
-        
+
         <Button Grid.Column="0" Grid.Row="0" Content="Назад" Height="30" VerticalAlignment="Top"
                 Command="{Binding NavigateClientProductPage}" />
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0" HorizontalAlignment="Center">
+            <TextBlock
+                Text="{Binding TotalPriceWithOutSale, StringFormat=Цена без скдики {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Text="{Binding TotalPriceWithSale, StringFormat=Цена со скдикой {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Text="{Binding TotalSale, StringFormat=Общая скидка {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
+        </StackPanel>
     </Grid>
 </UserControl>

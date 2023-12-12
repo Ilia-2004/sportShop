@@ -31,6 +31,7 @@ sealed public class ProductPageViewModel : INotifyPropertyChanged
         {
             _products = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Products)));
+            _dbContext.SaveChanges();
         }
     }
 
@@ -59,22 +60,32 @@ sealed public class ProductPageViewModel : INotifyPropertyChanged
         AddToBucketCommand = new RelayCommand<Product>(AddToBucketCommandExecute);
     }
 
-    private static void NavigateAdminRegistrationPageExecute()
+    private void NavigateAdminRegistrationPageExecute()
     {
+        _dbContext.SaveChanges();
+
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.NavigationService.Navigate(new AdminRegistrationView());
     }
-    private static void NavigateAuthorisationPageExecute()
+    private void NavigateAuthorisationPageExecute()
     {
+        _dbContext.SaveChanges();
+
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
     }
 
     private void NavigateClientBasketExecute()
     {
+        _dbContext.SaveChanges();
+
         var mainWindow = Application.Current.MainWindow as MainWindow;
-        mainWindow?.MainFrame.NavigationService.Navigate(
-            new ClientBasketView(_dbContext.Clients.First(c => Client != null && c.Id == Client.Id)));
+        var clientBasketView = new ClientBasketView
+        {
+            DataContext = new ClientBasketViewModel(_dbContext.Clients.First(c => Client != null && c.Id == Client.Id))
+        };
+
+        mainWindow?.MainFrame.NavigationService.Navigate(clientBasketView);
     }
 
     private void AddToBucketCommandExecute(Product product)
@@ -106,7 +117,7 @@ sealed public class ProductPageViewModel : INotifyPropertyChanged
         {
             Name = $"Product{_dbContext.Products.Count()}", ProductTypeId = _dbContext.ProductTypes.First().Id,
             ProductType = _dbContext.ProductTypes.First(),
-            Fabric = _dbContext.Fabrics.First(), FabricId = _dbContext.Fabrics.First().Id, Price = 0
+            Fabric = _dbContext.Fabrics.First(), FabricId = _dbContext.Fabrics.First().Id, Price = 0, Sale = 0
         };
 
         var fabric = _dbContext.Fabrics.Find(product.FabricId);
@@ -119,7 +130,6 @@ sealed public class ProductPageViewModel : INotifyPropertyChanged
 
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Products)));
     }
-
 
     public event PropertyChangedEventHandler? PropertyChanged;
 }

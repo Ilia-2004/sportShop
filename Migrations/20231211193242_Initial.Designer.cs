@@ -12,7 +12,7 @@ using sportShop;
 namespace sportShop.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20231209081348_Initial")]
+    [Migration("20231211193242_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -123,6 +123,9 @@ namespace sportShop.Migrations
                     b.Property<int?>("ClientId")
                         .HasColumnType("integer");
 
+                    b.Property<double>("DiscountedPrice")
+                        .HasColumnType("double precision");
+
                     b.Property<int>("FabricId")
                         .HasColumnType("integer");
 
@@ -134,6 +137,9 @@ namespace sportShop.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<int>("ProductTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sale")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

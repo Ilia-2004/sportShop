@@ -6,19 +6,20 @@
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
              mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.DataContext>
-        <viewModels:AdminRegistrationViewModel/>
+        <viewModels:AdminRegistrationViewModel />
     </UserControl.DataContext>
-   
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
             <RowDefinition Height="55" />
         </Grid.RowDefinitions>
-        
-        <Button HorizontalAlignment="Left" Content="Назад" VerticalAlignment="Top" Command="{Binding NavigateToAdminProductPage}" Height="50" Width="100"/>
-        
+
+        <Button HorizontalAlignment="Left" Content="Назад" VerticalAlignment="Top"
+                Command="{Binding NavigateToAdminProductPage}" Height="50" Width="100" />
+
         <UniformGrid Grid.Row="0">
             <StackPanel>
                 <TextBlock Text="Login" />
@@ -26,7 +27,7 @@
             </StackPanel>
 
             <StackPanel>
-                <TextBlock Text="Password"/>
+                <TextBlock Text="Password" />
                 <TextBox Text="{Binding Password}" Height="30" Width="75" />
             </StackPanel>
 
@@ -38,7 +39,7 @@
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button Content="Менеджера" Command="{Binding RegistrationManagerCommand}" Height="55" Width="75"
-                    Margin="0 0 10 0" />   
+                    Margin="0 0 10 0" />
             <Button Content="Админа" Command="{Binding RegistrationAdministratorCommand}" Height="55" Width="75"
                     Margin="0 0 10 0" />
         </StackPanel>

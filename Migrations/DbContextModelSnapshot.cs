@@ -120,6 +120,9 @@ namespace sportShop.Migrations
                     b.Property<int?>("ClientId")
                         .HasColumnType("integer");
 
+                    b.Property<double>("DiscountedPrice")
+                        .HasColumnType("double precision");
+
                     b.Property<int>("FabricId")
                         .HasColumnType("integer");
 
@@ -131,6 +134,9 @@ namespace sportShop.Migrations
                         .HasColumnType("double precision");
 
                     b.Property<int>("ProductTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sale")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

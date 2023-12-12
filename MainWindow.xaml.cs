@@ -9,7 +9,7 @@ public partial class MainWindow
     {
         InitializeComponent();
         MainFrame.NavigationService.Navigate(new AuthorizationView());
-        //AddSDf();
+        AddSDf();
         AddMembers();
         ASDASD();
     }
