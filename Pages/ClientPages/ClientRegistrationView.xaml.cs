@@ -1,9 +1,13 @@
-﻿namespace sportShop.Pages.ClientPages;
+﻿using sportShop.ViewModels;
 
-public partial class RegistrationPage
+namespace sportShop.Pages.ClientPages;
+
+public partial class ClientRegistrationView
 {
-    public RegistrationPage()
+    public ClientRegistrationView()
     {
         InitializeComponent();
+
+        DataContext = new RegistrationViewModel();
     }
 }

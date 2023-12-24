@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace sportShop.Models;
-
-    #region Tabels
 
 public class Client
 {
@@ -36,6 +33,7 @@ sealed public class Product : INotifyPropertyChanged
     public required string Name { get; set; }
     public required int ProductTypeId { get; set; }
     public required ProductTypes ProductType { get; set; }
+    public required int ProductCount { get; set; }
 
     private double _price;
 
@@ -77,10 +75,6 @@ sealed public class Product : INotifyPropertyChanged
     public required int FabricId { get; set; }
     public required Fabric Fabric { get; set; }
     public event PropertyChangedEventHandler? PropertyChanged;
-    private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
 }
 
 public class Fabric
@@ -95,5 +89,3 @@ public class ProductTypes
     public int Id { get; set; }
     public required string Name { get; set; }
 }
-
-    #endregion

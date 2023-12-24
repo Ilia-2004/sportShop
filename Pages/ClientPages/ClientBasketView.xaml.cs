@@ -5,8 +5,10 @@ namespace sportShop.Pages.ClientPages;
 
 public partial class ClientBasketView
 {
-    public ClientBasketView()
+    public ClientBasketView(Client client)
     {
+        DataContext = new ClientBasketViewModel(client);
+
         InitializeComponent();
     }
 }

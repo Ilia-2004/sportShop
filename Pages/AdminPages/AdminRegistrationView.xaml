@@ -5,12 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-
-    <UserControl.DataContext>
-        <viewModels:AdminRegistrationViewModel />
-    </UserControl.DataContext>
-
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=viewModels:AdminRegistrationViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

@@ -1,4 +1,3 @@
-using System.ComponentModel;
 using System.Linq;
 using System.Windows;
 using sportShop.Pages.AdminPages;
@@ -7,7 +6,7 @@ using sportShop.Pages.ManagerPages;
 
 namespace sportShop.ViewModels;
 
-sealed public class AuthorizationPageViewModel : INotifyPropertyChanged
+sealed public class AuthorizationViewModel : BaseViewModel
 {
     private readonly MainWindow? _mainWindow;
     private string _login;
@@ -18,7 +17,7 @@ sealed public class AuthorizationPageViewModel : INotifyPropertyChanged
         set
         {
             _login = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Login)));
+            OnPropertyChanged();
         }
     }
 
@@ -30,14 +29,14 @@ sealed public class AuthorizationPageViewModel : INotifyPropertyChanged
         set
         {
             _password = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Password)));
+            OnPropertyChanged();
         }
     }
 
     public RelayCommand SubmitAuthCommand { get; }
     public RelayCommand NavigateToRegistrationCommand { get; }
 
-    public AuthorizationPageViewModel()
+    public AuthorizationViewModel()
     {
         _mainWindow = Application.Current.MainWindow as MainWindow;
 
@@ -48,7 +47,7 @@ sealed public class AuthorizationPageViewModel : INotifyPropertyChanged
     }
     private void NavigateToRegistrationCommandExecute()
     {
-        _mainWindow?.MainFrame.NavigationService.Navigate(new RegistrationPage());
+        _mainWindow?.MainFrame.NavigationService.Navigate(new ClientRegistrationView());
     }
 
     private void SubmitAuthCommandExecute()
@@ -67,6 +66,4 @@ sealed public class AuthorizationPageViewModel : INotifyPropertyChanged
             MessageBox.Show("Пользователь не зарегестрирован!");
 
     }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 }

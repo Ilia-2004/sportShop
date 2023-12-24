@@ -3,49 +3,93 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 using sportShop.Models;
 using sportShop.Pages.ClientPages;
 
 namespace sportShop.ViewModels;
 
-sealed public class ClientBasketViewModel : INotifyPropertyChanged
+sealed public class ClientBasketViewModel : BaseViewModel
 {
+    public class ProductGroup
+    {
+        public bool IsSelected { get; set; }
+        public Product Product { get; }
+
+        public ProductGroup(Product product, int count)
+        {
+            Product = product;
+            Count = count;
+        }
+
+        private int _count;
+
+        public int Count
+        {
+            get => _count;
+            set
+            {
+                var dbContext = new DbContext();
+                var maxCountOfProducts = dbContext.Products.First(prod => prod.Id == Product.Id).ProductCount;
+
+                _count = value > maxCountOfProducts? maxCountOfProducts : value;
+                Price = _count * Product.Price;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+            }
+        }
+
+        private double _price;
+
+        public double Price
+        {
+            get => _price;
+            set
+            {
+                _price = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Price)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DiscountedPrice)));
+            }
+        }
+
+        public double DiscountedPrice
+        {
+            get
+            {
+                var discount = (double) Product.Sale / 100;
+                var discountedPrice = _price - _price * discount;
+                return discountedPrice;
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+    }
+
     private readonly DbContext _dbContext;
 
-    private ObservableCollection<Product>? _products;
+    private ObservableCollection<ProductGroup> _productGroups;
 
-    public ObservableCollection<Product>? Products
+    public ObservableCollection<ProductGroup> ProductGroups
     {
-        get => _products;
-        init
+        get => _productGroups;
+        set
         {
-            _products = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Products)));
+            _productGroups = value;
+            SetPrice();
+            OnPropertyChanged();
         }
     }
 
     private readonly Client _client;
-
-    public Client Client
-    {
-        get => _client;
-        init
-        {
-            _client = value;
-            Products = new ObservableCollection<Product>(_client.Products);
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Client)));
-        }
-    }
 
     private string _totalPriceWithOutSale;
 
     public string TotalPriceWithOutSale
     {
         get => _totalPriceWithOutSale;
-        set
+        private set
         {
             _totalPriceWithOutSale = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalPriceWithOutSale)));
+            OnPropertyChanged();
         }
     }
 
@@ -54,10 +98,10 @@ sealed public class ClientBasketViewModel : INotifyPropertyChanged
     public string TotalSale
     {
         get => _totalSale;
-        set
+        private set
         {
             _totalSale = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalSale)));
+            OnPropertyChanged();
         }
     }
 
@@ -66,59 +110,76 @@ sealed public class ClientBasketViewModel : INotifyPropertyChanged
     public string TotalPriceWithSale
     {
         get => _totalPriceWithSale;
-        set
+        private set
         {
             _totalPriceWithSale = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(TotalPriceWithSale)));
+            OnPropertyChanged();
         }
     }
 
-    public RelayCommand<Product> DeleteProductCommand { get; private set; }
     public RelayCommand NavigateClientProductPage { get; private set; }
+    public RelayCommand DeleteProductsCommand { get; private set; }
+    public RelayCommand BuyProductsCommand { get; private set; }
 
     public ClientBasketViewModel(Client client)
     {
-        _products = new ObservableCollection<Product>();
         _dbContext = new DbContext();
+
+        _totalSale = string.Empty;
+        _totalPriceWithSale = string.Empty;
+        _totalPriceWithOutSale = string.Empty;
+
         _client = client;
-        _products = new ObservableCollection<Product>(_client.Products);
+
+        _productGroups = new ObservableCollection<ProductGroup>(client.Products
+            .GroupBy(p => p.Id)
+            .Select(g => new ProductGroup(
+                _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).First(pr => pr.Id == g.Key),
+                g.Count())).ToList());
 
         SetPrice();
 
-        DeleteProductCommand = new RelayCommand<Product>(DeleteProductCommandExecute);
         NavigateClientProductPage = new RelayCommand(NavigateClientProductPageExecute);
+        DeleteProductsCommand = new RelayCommand(DeleteProductsCommandExecute);
+        BuyProductsCommand = new RelayCommand(BuyProductsCommandExecute);
+    }
+
+    private void BuyProductsCommandExecute()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void DeleteProductsCommandExecute()
+    {
+        // ProductGroups.Where(prdgr => prdgr.IsSelected).ToList().ForEach(prdgr => ProductGroups.Remove(prdgr));
+
+        var productsIdToRemove = ProductGroups.Where(prdgr => prdgr.IsSelected).Select(prdtg => prdtg.Product.Id).ToList();
+        var productsToRemove = _dbContext.Products.Where(product => productsIdToRemove.Contains(product.Id)).ToList();
+        _dbContext.Products.RemoveRange(productsToRemove);
+        _dbContext.SaveChanges();
+
+        ProductGroups = new ObservableCollection<ProductGroup>(_client.Products
+            .GroupBy(p => p.Id)
+            .Select(g => new ProductGroup(
+                _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).First(pr => pr.Id == g.Key),
+                g.Count())).ToList());
     }
 
     private void NavigateClientProductPageExecute()
     {
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.NavigationService.Navigate(
-            new ClientProductView(_dbContext.Clients.First(client => client.Id == Client.Id)));
+            new ClientProductView(_dbContext.Clients.First(client => client.Id == _client.Id)));
 
         _dbContext.SaveChanges();
     }
 
-    private void DeleteProductCommandExecute(Product product)
+    public void SetPrice()
     {
-        _client.Products.Remove(product);
-        _products = new ObservableCollection<Product>(_client.Products);
-        SetPrice();
-
-        _dbContext.Clients.First(c => c.Id == _client.Id).Products.Remove(_dbContext.Products.First(prod => prod.Id == product.Id));
-
-        _dbContext.SaveChanges();
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Products)));
+        TotalPriceWithOutSale = _productGroups.Sum(group => group.Price).ToString(CultureInfo.InvariantCulture);
+        TotalPriceWithSale = _productGroups.Sum(group => group.DiscountedPrice).ToString(CultureInfo.InvariantCulture);
+        TotalSale =
+            (_productGroups.Sum(group => group.Price) / _productGroups.Sum(group => group.DiscountedPrice)).ToString(CultureInfo
+                .InvariantCulture);
     }
-
-    private void SetPrice()
-    {
-        TotalPriceWithSale =
-            _products is not null? _products.Sum(c => c.DiscountedPrice).ToString(CultureInfo.InvariantCulture) : "0";
-        TotalSale = _products is not null
-            ? _products.Sum(c => c.Price - c.DiscountedPrice).ToString(CultureInfo.InvariantCulture)
-            : "0";
-        TotalPriceWithOutSale = _products is not null? _products.Sum(c => c.Price).ToString(CultureInfo.InvariantCulture) : "0";
-    }
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -1,11 +1,10 @@
-using System.ComponentModel;
 using System.Windows;
 using sportShop.Models;
 using sportShop.Pages.AdminPages;
 
 namespace sportShop.ViewModels;
 
-sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
+sealed public class AdminRegistrationViewModel : BaseViewModel
 {
     private readonly DbContext _dbContext;
 
@@ -17,7 +16,7 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
         set
         {
             _login = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Login)));
+            OnPropertyChanged();
         }
     }
 
@@ -29,7 +28,7 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
         set
         {
             _password = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Password)));
+            OnPropertyChanged();
         }
     }
 
@@ -41,14 +40,13 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
         set
         {
             _submitPassword = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(SubmitPassword)));
+            OnPropertyChanged();
         }
     }
 
     public RelayCommand RegistrationManagerCommand { get; set; }
     public RelayCommand RegistrationAdministratorCommand { get; set; }
     public RelayCommand NavigateToAdminProductPage { get; set; }
-
 
     public AdminRegistrationViewModel()
     {
@@ -65,6 +63,8 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
 
     private void NavigateToAdminProductPageCommandExecute()
     {
+        _dbContext.SaveChanges();
+
         var mainWindow = Application.Current.MainWindow as MainWindow;
         mainWindow?.MainFrame.NavigationService.Navigate(new AdminProductView());
     }
@@ -72,7 +72,6 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
     private void RegistrationAdministratorCommandExecute()
     {
         _dbContext.Administrators.Add(new Administrator() {Login = _login, Password = _password});
-        _dbContext.SaveChanges();
 
         MessageBox.Show("Администартор зарегестрирован!");
     }
@@ -80,11 +79,7 @@ sealed public class AdminRegistrationViewModel : INotifyPropertyChanged
     private void RegistrationManagerCommandExecute()
     {
         _dbContext.Managers.Add(new Manager() {Login = _login, Password = _password});
-        _dbContext.SaveChanges();
 
         MessageBox.Show("Менеджер зарегестрирован!");
     }
-
-
-    public event PropertyChangedEventHandler? PropertyChanged;
 }

@@ -16,8 +16,6 @@ public class RelayCommand : ICommand
 {
     public Action Action { get; set; }
 
-    public string DisplayName { get; set; }
-
     public void Execute(object parameter)
     {
         Action?.Invoke();

@@ -4,11 +4,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:sportShop.ViewModels"
-        mc:Ignorable="d" Height="450" Width="800">
-    
-    <UserControl.DataContext>
-        <viewModels:AuthorizationPageViewModel/>
-    </UserControl.DataContext>
+        mc:Ignorable="d" Height="450" Width="800"
+        d:DataContext="{d:DesignInstance Type=viewModels:AuthorizationViewModel, IsDesignTimeCreatable=False}">
     
     <Grid Background="Lavender" Height="450" VerticalAlignment="Top">
         <Button HorizontalAlignment="Left" VerticalAlignment="Top" Height="42" Width="100" Content="Registration" Command="{Binding NavigateToRegistrationCommand}"/>

@@ -5,12 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="ClientBackPage">
-    
-    <d:DesignData>
-        <viewModels:ClientBasketViewModel/>
-    </d:DesignData>
-
+             d:DesignHeight="300" d:DesignWidth="300" x:Name="ClientBackPage"
+             d:DataContext="{d:DesignInstance Type=viewModels:ClientBasketViewModel, IsDesignTimeCreatable=False}">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40" />
@@ -21,25 +17,27 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="55" />
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding Products}"
+        <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ProductGroups}"
                   AutoGenerateColumns="False" SelectionMode="Extended" CanUserResizeRows="False"
                   CanUserSortColumns="True" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTemplateColumn Header="Удалить" Width="auto" MinWidth="20">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Button Command="{Binding DataContext.DeleteProductCommand, ElementName=ClientBackPage}"
-                                    CommandParameter="{Binding}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-                <DataGridTextColumn Header="Название" Binding="{Binding Name}" Width="*" MinWidth="100"
+                <DataGridCheckBoxColumn Header="Выбрать" Binding="{Binding IsSelected, UpdateSourceTrigger=PropertyChanged}" Width="auto" MinWidth="20" />
+                <DataGridTextColumn Header="Название" Binding="{Binding Product.Name}" Width="*" MinWidth="100"
                                     IsReadOnly="True" />
-                <DataGridTextColumn Header="Описание" Binding="{Binding ProductType.Name}" Width="*" MinWidth="250"
+                <DataGridTextColumn Header="Описание" Binding="{Binding Product.ProductType.Name}" Width="*"
+                                    MinWidth="250"
                                     IsReadOnly="True" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price}" Width="*" MinWidth="50" IsReadOnly="True" />
-                <DataGridTextColumn Header="Производитель" Binding="{Binding Fabric.Name}" Width="*" MinWidth="50"
-                                    IsReadOnly="True" />
+                <DataGridTextColumn Header="Скидка"
+                                    Binding="{Binding Product.Sale, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*" MinWidth="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding Count, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*" MinWidth="50" />
+                <DataGridTextColumn Header="Цена со скидкой"
+                                    Binding="{Binding DiscountedPrice, UpdateSourceTrigger=PropertyChanged}" Width="*"
+                                    MinWidth="50" IsReadOnly="True" />
+                <DataGridTextColumn Header="Производитель" Binding="{Binding Product.Fabric.Name}" Width="*"
+                                    MinWidth="50" IsReadOnly="True" />
             </DataGrid.Columns>
         </DataGrid>
 
@@ -53,6 +51,10 @@
                 Text="{Binding TotalPriceWithSale, StringFormat=Цена со скдикой {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Text="{Binding TotalSale, StringFormat=Общая скидка {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
+            <StackPanel Orientation="Horizontal">
+                <Button Command="{Binding DeleteProductsCommand}" Content="Удалить" />
+                <Button Command="{Binding BuyProductsCommand}" Content="Купить" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </UserControl>

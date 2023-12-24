@@ -5,10 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
-    <UserControl.DataContext>
-        <viewModels:ProductPageViewModel />
-    </UserControl.DataContext>
+             d:DesignHeight="300" d:DesignWidth="300"
+             d:DataContext="{d:DesignInstance Type=viewModels:ProductViewModel, IsDesignTimeCreatable=False}">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -28,6 +26,8 @@
                 <DataGridTextColumn Header="Описание" Binding="{Binding ProductType.Name}" Width="*" MinWidth="250" />
                 <DataGridTextColumn Header="Цена" Binding="{Binding Price, UpdateSourceTrigger=PropertyChanged}"
                                     Width="*" MinWidth="50" />
+                <DataGridTextColumn Header="Количество" Binding="{Binding ProductCount, UpdateSourceTrigger=PropertyChanged}"
+                                    Width="*" MinWidth="50"/>
                 <DataGridTextColumn Header="Скидка" Binding="{Binding Sale, UpdateSourceTrigger=PropertyChanged}"
                                     Width="*" MinWidth="50" />
                 <DataGridTextColumn Header="Цена со скидкой"
