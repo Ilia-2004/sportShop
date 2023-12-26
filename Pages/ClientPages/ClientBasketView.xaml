@@ -4,9 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:viewModels="clr-namespace:sportShop.ViewModels"
-             mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300" x:Name="ClientBackPage"
-             d:DataContext="{d:DesignInstance Type=viewModels:ClientBasketViewModel, IsDesignTimeCreatable=False}">
+             mc:Ignorable="d" d:DesignWidth="300" x:Name="ClientBackPage"
+             d:DataContext="{d:DesignInstance Type=viewModels:ClientBasketViewModel, IsDesignTimeCreatable=False}" Height="319">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40" />
@@ -48,7 +47,7 @@
             <TextBlock
                 Text="{Binding TotalPriceWithOutSale, StringFormat=Цена без скдики {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
-                Text="{Binding TotalPriceWithSale, StringFormat=Цена со скдикой {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding TotalPriceWithSale, StringFormat=Цена со скдикой {0} рублей, UpdateSourceTrigger=PropertyChanged}" Height="3" />
             <TextBlock
                 Text="{Binding TotalSale, StringFormat=Общая скидка {0} рублей, UpdateSourceTrigger=PropertyChanged}" />
             <StackPanel Orientation="Horizontal">
