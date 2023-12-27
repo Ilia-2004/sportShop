@@ -146,7 +146,7 @@ sealed public class ClientBasketViewModel : BaseViewModel
 
     private void BuyProductsCommandExecute()
     {
-        throw new System.NotImplementedException();
+      MessageBox.Show("Успешно куплено");
     }
 
     private void DeleteProductsCommandExecute()
