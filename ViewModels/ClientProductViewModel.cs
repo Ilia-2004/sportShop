@@ -21,7 +21,7 @@ public class ClientProductViewModel : ProductViewModel
         NavigateClientBasket = new RelayCommand(NavigateClientBasketExecute);
         AddToBucketCommand = new RelayCommand<Product>(AddToBucketCommandExecute);
 
-        Products = new ObservableCollection<Product>(DbContext.Products.Where(product => product.ProductCount != 0)
+        Products = new ObservableCollection<Product>(DbContext.Products.Where(product => product.ProductCount > 0)
             .Include(c => c.Fabric).Include(c => c.ProductType));
     }
 

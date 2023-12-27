@@ -101,7 +101,7 @@ sealed public class ClientBasketViewModel : BaseViewModel
     private void BuyProductsCommandExecute()
     {
         var selectedProducts = ProductGroups.Where(productGroup => productGroup.IsSelected).ToList();
-        if (selectedProducts.Count > 0)  
+        if (selectedProducts.Count < 0)   
             return; 
 
         foreach (var selectedProduct in selectedProducts)
