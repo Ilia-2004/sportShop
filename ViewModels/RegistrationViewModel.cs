@@ -1,7 +1,7 @@
 using System;
 using System.Windows;
 using sportShop.Models;
-using sportShop.Pages.GeneralPages;
+using sportShop.Views.GeneralPages;
 
 namespace sportShop.ViewModels;
 

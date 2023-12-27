@@ -1,8 +1,8 @@
 using System.Linq;
 using System.Windows;
-using sportShop.Pages.AdminPages;
-using sportShop.Pages.ClientPages;
-using sportShop.Pages.ManagerPages;
+using sportShop.Views.AdminPages;
+using sportShop.Views.ClientPages;
+using sportShop.Views.ManagerPages;
 
 namespace sportShop.ViewModels;
 

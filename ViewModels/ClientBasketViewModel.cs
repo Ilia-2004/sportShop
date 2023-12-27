@@ -1,69 +1,17 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using sportShop.Models;
-using sportShop.Pages.ClientPages;
+using sportShop.Views.ClientPages;
 
 namespace sportShop.ViewModels;
 
 sealed public class ClientBasketViewModel : BaseViewModel
 {
-    public class ProductGroup
-    {
-        public bool IsSelected { get; set; }
-        public Product Product { get; }
-
-        public ProductGroup(Product product, int count)
-        {
-            Product = product;
-            Count = count;
-        }
-
-        private int _count;
-
-        public int Count
-        {
-            get => _count;
-            set
-            {
-                var dbContext = new DbContext();
-                var maxCountOfProducts = dbContext.Products.First(prod => prod.Id == Product.Id).ProductCount;
-
-                _count = value > maxCountOfProducts? maxCountOfProducts : value;
-                Price = _count * Product.Price;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
-            }
-        }
-
-        private double _price;
-
-        public double Price
-        {
-            get => _price;
-            set
-            {
-                _price = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Price)));
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DiscountedPrice)));
-            }
-        }
-
-        public double DiscountedPrice
-        {
-            get
-            {
-                var discount = (double) Product.Sale / 100;
-                var discountedPrice = _price - _price * discount;
-                return discountedPrice;
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-    }
-
     private readonly DbContext _dbContext;
 
     private ObservableCollection<ProductGroup> _productGroups;
@@ -137,6 +85,8 @@ sealed public class ClientBasketViewModel : BaseViewModel
                 _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).First(pr => pr.Id == g.Key),
                 g.Count())).ToList());
 
+        foreach (var productGroup in _productGroups)
+            productGroup.PropertyChanged += ProductsGroupChanged;
         SetPrice();
 
         NavigateClientProductPage = new RelayCommand(NavigateClientProductPageExecute);
@@ -144,25 +94,53 @@ sealed public class ClientBasketViewModel : BaseViewModel
         BuyProductsCommand = new RelayCommand(BuyProductsCommandExecute);
     }
 
+    private void ProductsGroupChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        SetPrice();
+    }
+
     private void BuyProductsCommandExecute()
     {
-      MessageBox.Show("Успешно куплено");
+        var selectedProducts = ProductGroups.Where(productGroup => productGroup.IsSelected).ToList();
+
+        foreach (var selectedProduct in selectedProducts)
+        {
+            _dbContext.Products.First(product => product.Id == selectedProduct.Product.Id).ProductCount -= selectedProduct.Count;
+            _dbContext.Clients.First(client => client.Id == _client.Id).Products
+                .Remove(_dbContext.Products.First(prod => prod.Id == selectedProduct.Product.Id));
+        }
+
+        _dbContext.SaveChanges();
+
+        ProductGroups = new ObservableCollection<ProductGroup>(_dbContext.Clients.Include(client => client.Products)
+            .First(c => c.Id == _client.Id).Products
+            .GroupBy(p => p.Id)
+            .Select(g => new ProductGroup(
+                _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).FirstOrDefault(pr => pr.Id == g.Key),
+                g.Count())).ToList());
+
+        SetPrice();
+        MessageBox.Show("Product bought!");
     }
 
     private void DeleteProductsCommandExecute()
     {
-        // ProductGroups.Where(prdgr => prdgr.IsSelected).ToList().ForEach(prdgr => ProductGroups.Remove(prdgr));
+        var selectedProducts = ProductGroups.Where(productGroup => productGroup.IsSelected)
+            .Select(productGroup => productGroup.Product).ToList();
 
-        var productsIdToRemove = ProductGroups.Where(prdgr => prdgr.IsSelected).Select(prdtg => prdtg.Product.Id).ToList();
-        var productsToRemove = _dbContext.Products.Where(product => productsIdToRemove.Contains(product.Id)).ToList();
-        _dbContext.Products.RemoveRange(productsToRemove);
+        foreach (var selectedProduct in selectedProducts)
+            _dbContext.Clients.First(c => c.Id == _client.Id).Products
+                .Remove(_dbContext.Products.First(prod => prod.Id == selectedProduct.Id));
         _dbContext.SaveChanges();
 
-        ProductGroups = new ObservableCollection<ProductGroup>(_client.Products
+        ProductGroups = new ObservableCollection<ProductGroup>(_dbContext.Clients.Include(client => client.Products)
+            .First(c => c.Id == _client.Id).Products
             .GroupBy(p => p.Id)
             .Select(g => new ProductGroup(
-                _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).First(pr => pr.Id == g.Key),
+                _dbContext.Products.Include(c => c.Fabric).Include(c => c.ProductType).FirstOrDefault(pr => pr.Id == g.Key),
                 g.Count())).ToList());
+
+        SetPrice();
     }
 
     private void NavigateClientProductPageExecute()
@@ -174,7 +152,7 @@ sealed public class ClientBasketViewModel : BaseViewModel
         _dbContext.SaveChanges();
     }
 
-    public void SetPrice()
+    private void SetPrice()
     {
         TotalPriceWithOutSale = _productGroups.Sum(group => group.Price).ToString(CultureInfo.InvariantCulture);
         TotalPriceWithSale = _productGroups.Sum(group => group.DiscountedPrice).ToString(CultureInfo.InvariantCulture);
@@ -182,4 +160,57 @@ sealed public class ClientBasketViewModel : BaseViewModel
             (_productGroups.Sum(group => group.Price) / _productGroups.Sum(group => group.DiscountedPrice)).ToString(CultureInfo
                 .InvariantCulture);
     }
+}
+
+public class ProductGroup
+{
+    public bool IsSelected { get; set; }
+    public Product Product { get; }
+
+    public ProductGroup(Product product, int count)
+    {
+        Product = product;
+        Count = count;
+    }
+
+    private int _count;
+
+    public int Count
+    {
+        get => _count;
+        set
+        {
+            var dbContext = new DbContext();
+            var maxCountOfProducts = dbContext.Products.First(prod => prod.Id == Product.Id).ProductCount;
+            _count = value > maxCountOfProducts? maxCountOfProducts : value;
+
+            Price = _count * Product.Price;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Count)));
+        }
+    }
+
+    private double _price;
+
+    public double Price
+    {
+        get => _price;
+        set
+        {
+            _price = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Price)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DiscountedPrice)));
+        }
+    }
+
+    public double DiscountedPrice
+    {
+        get
+        {
+            var discount = (double) Product.Sale / 100;
+            var discountedPrice = _price - _price * discount;
+            return discountedPrice;
+        }
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }

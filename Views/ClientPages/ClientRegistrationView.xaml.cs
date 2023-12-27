@@ -1,6 +1,6 @@
 ﻿using sportShop.ViewModels;
 
-namespace sportShop.Pages.ClientPages;
+namespace sportShop.Views.ClientPages;
 
 public partial class ClientRegistrationView
 {

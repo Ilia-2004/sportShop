@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using sportShop.Models;
-using sportShop.Pages.GeneralPages;
+using sportShop.Views.GeneralPages;
 
 namespace sportShop.ViewModels;
 
@@ -12,12 +12,12 @@ public class ProductViewModel : BaseViewModel
 
     public RelayCommand NavigateAuthorisationPage { get; private set; }
 
-    private ObservableCollection<Product> _products;
+    private readonly ObservableCollection<Product> _products;
 
     public ObservableCollection<Product> Products
     {
         get => _products;
-        protected set
+        protected init
         {
             _products = value;
             OnPropertyChanged();

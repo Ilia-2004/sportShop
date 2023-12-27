@@ -1,6 +1,6 @@
 using sportShop.ViewModels;
 
-namespace sportShop.Pages.ManagerPages;
+namespace sportShop.Views.ManagerPages;
 
 public partial class ManagerProductView
 {

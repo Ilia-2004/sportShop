@@ -56,7 +56,13 @@ sealed public class Product : INotifyPropertyChanged
         get => _sale;
         set
         {
-            _sale = value;
+            _sale = value switch
+            {
+                < 0 => 0,
+                > 100 => 100,
+                _ => value
+            };
+
             DiscountedPrice = GetDiscountedPrice();
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Sale)));
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DiscountedPrice)));

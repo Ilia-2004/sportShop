@@ -1,6 +1,6 @@
 ﻿using sportShop.ViewModels;
 
-namespace sportShop.Pages.GeneralPages;
+namespace sportShop.Views.GeneralPages;
 
 public partial class AuthorizationView
 {

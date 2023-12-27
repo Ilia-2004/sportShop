@@ -1,4 +1,4 @@
-<UserControl x:Class="sportShop.Pages.ClientPages.ClientBasketView"
+<UserControl x:Class="sportShop.Views.ClientPages.ClientBasketView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -14,7 +14,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
-            <RowDefinition Height="55" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" Grid.Column="1" ItemsSource="{Binding ProductGroups}"
                   AutoGenerateColumns="False" SelectionMode="Extended" CanUserResizeRows="False"

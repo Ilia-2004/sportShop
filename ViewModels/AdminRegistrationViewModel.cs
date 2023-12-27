@@ -1,6 +1,6 @@
 using System.Windows;
 using sportShop.Models;
-using sportShop.Pages.AdminPages;
+using sportShop.Views.AdminPages;
 
 namespace sportShop.ViewModels;
 

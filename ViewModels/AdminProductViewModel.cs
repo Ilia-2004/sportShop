@@ -1,7 +1,7 @@
 using System.Linq;
 using System.Windows;
 using sportShop.Models;
-using sportShop.Pages.AdminPages;
+using sportShop.Views.AdminPages;
 
 namespace sportShop.ViewModels;
 
@@ -39,7 +39,7 @@ public class AdminProductViewModel : ProductViewModel
         {
             Name = $"Product{Products.Count}", ProductTypeId = DbContext.ProductTypes.First().Id,
             ProductType = DbContext.ProductTypes.First(),
-            Fabric = DbContext.Fabrics.First(), FabricId = DbContext.Fabrics.First().Id, Price = 0, Sale = 0, ProductCount = 0
+            Fabric = DbContext.Fabrics.First(), FabricId = DbContext.Fabrics.First().Id, Price = 0, Sale = 0, ProductCount = 1
         };
 
         var fabric = DbContext.Fabrics.Find(product.FabricId);

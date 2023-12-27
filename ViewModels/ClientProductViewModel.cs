@@ -1,7 +1,9 @@
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using Microsoft.EntityFrameworkCore;
 using sportShop.Models;
-using sportShop.Pages.ClientPages;
+using sportShop.Views.ClientPages;
 
 namespace sportShop.ViewModels;
 
@@ -18,6 +20,9 @@ public class ClientProductViewModel : ProductViewModel
 
         NavigateClientBasket = new RelayCommand(NavigateClientBasketExecute);
         AddToBucketCommand = new RelayCommand<Product>(AddToBucketCommandExecute);
+
+        Products = new ObservableCollection<Product>(DbContext.Products.Where(product => product.ProductCount != 0)
+            .Include(c => c.Fabric).Include(c => c.ProductType));
     }
 
     private void NavigateClientBasketExecute()
