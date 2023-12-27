@@ -1,5 +1,4 @@
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
@@ -19,7 +18,7 @@ sealed public class ClientBasketViewModel : BaseViewModel
     public ObservableCollection<ProductGroup> ProductGroups
     {
         get => _productGroups;
-        set
+        private set
         {
             _productGroups = value;
             SetPrice();

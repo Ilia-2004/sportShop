@@ -11,7 +11,7 @@ namespace sportShop;
 public class DbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) =>
-      optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=12345Qq");
+      optionsBuilder.UseNpgsql("Host=localhost;Port=5432;Database=postgres;Username=postgres;Password=Boec_UFC1123");
     public DbSet<Product> Products { get; set; }
     public DbSet<Fabric> Fabrics { get; set; }
     public DbSet<Manager> Managers { get; set; }
