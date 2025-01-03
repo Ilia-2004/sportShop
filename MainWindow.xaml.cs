@@ -1,5 +1,7 @@
-﻿using sportShop.Models;
+﻿using sportShop.EntityFramework;
+using sportShop.EntityFramework.Models;
 using sportShop.Views.GeneralPages;
+using AuthorizationView = sportShop.MVVM.Views.GeneralViews.AuthorizationView;
 
 namespace sportShop;
 
@@ -16,7 +18,7 @@ public partial class MainWindow
 
     public void AddMembers()
     {
-        var dbContext = new DbContext();
+        var dbContext = new Context();
     
         dbContext.ProductTypes.Add(new ProductTypes() { Name = "Tapok" });
         dbContext.SaveChanges();
@@ -24,7 +26,7 @@ public partial class MainWindow
     //
     private void AddSDf()
     {
-        var dbContext = new DbContext();
+        var dbContext = new Context();
     
         dbContext.Administrators.Add(new Administrator() { Login = "Admin", Password = "Admin" });
         dbContext.SaveChanges();
@@ -32,7 +34,7 @@ public partial class MainWindow
     //
     private void ASDASD()
     {
-        var dbContext = new DbContext();
+        var dbContext = new Context();
     
         dbContext.Fabrics.Add(new Fabric() { Name = "Fabrik" });
         dbContext.SaveChanges();
