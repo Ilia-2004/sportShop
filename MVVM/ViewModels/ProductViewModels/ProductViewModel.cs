@@ -3,42 +3,57 @@ using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using sportShop.EntityFramework;
 using sportShop.EntityFramework.Models;
-using sportShop.Views.GeneralPages;
+using sportShop.MVVM.RelayCommands;
+using sportShop.MVVM.Views;
 using AuthorizationView = sportShop.MVVM.Views.GeneralViews.AuthorizationView;
 
 namespace sportShop.MVVM.ViewModels.ProductViewModels;
 
+/// <summary>
+/// Реализация ViewModel продукта
+/// </summary>
 public class ProductViewModel : BaseViewModel
 {
-    protected readonly Context Context;
+  #region Свойства
 
-    public RelayCommand NavigateAuthorisationPage { get; private set; }
+  protected readonly Context Context;
 
-    private readonly ObservableCollection<Product> _products;
+  private readonly ObservableCollection<Product?> _products;
 
-    public ObservableCollection<Product> Products
+  public ObservableCollection<Product?> Products
+  {
+    get => _products;
+    protected init
     {
-        get => _products;
-        protected init
-        {
-            _products = value;
-            OnPropertyChanged();
-        }
+      _products = value;
+      OnPropertyChanged();
     }
+  }
 
-    public ProductViewModel()
-    {
-        Context = new Context();
-        _products = new ObservableCollection<Product>(Context.Products.Include(c => c.Fabric).Include(c => c.ProductType));
+  #endregion
 
-        NavigateAuthorisationPage = new RelayCommand(NavigateAuthorisationPageExecute);
-    }
+  /* Свойство команды */
+  public RelayCommand NavigateAuthorisationPage { get; private set; }
 
-    private void NavigateAuthorisationPageExecute()
-    {
-        Context.SaveChanges();
+  /// <summary>
+  /// Конструктор по умолчанию
+  /// </summary>
+  public ProductViewModel()
+  {
+    Context = new Context();
+    _products = new ObservableCollection<Product?>(Context.Products.Include(c => c.Fabric).Include(c => c.ProductType));
 
-        var mainWindow = Application.Current.MainWindow as MainWindow;
-        mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
-    }
+    NavigateAuthorisationPage = new RelayCommand(NavigateAuthorisationPageExecute);
+  }
+
+  /// <summary>
+  /// Команда навигации 
+  /// </summary>
+  private void NavigateAuthorisationPageExecute()
+  {
+    Context.SaveChanges();
+
+    var mainWindow = Application.Current.MainWindow as MainView;
+    mainWindow?.MainFrame.NavigationService.Navigate(new AuthorizationView());
+  }
 }

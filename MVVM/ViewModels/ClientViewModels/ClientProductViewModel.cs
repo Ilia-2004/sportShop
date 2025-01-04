@@ -3,42 +3,64 @@ using System.Linq;
 using System.Windows;
 using Microsoft.EntityFrameworkCore;
 using sportShop.EntityFramework.Models;
+using sportShop.MVVM.RelayCommands;
 using sportShop.MVVM.ViewModels.ProductViewModels;
-using sportShop.Views.ClientPages;
+using sportShop.MVVM.Views;
 using ClientBasketView = sportShop.MVVM.Views.ClientViews.ClientBasketView;
 
 namespace sportShop.MVVM.ViewModels.ClientViewModels;
 
+/// <summary>
+/// Реализация ViewModel для клиента и продукта
+/// </summary>
 public class ClientProductViewModel : ProductViewModel
 {
-    public RelayCommand<Product> AddToBucketCommand { get; private set; }
-    public RelayCommand NavigateClientBasket { get; private set; }
+  /* Свойство передаваемого клиента */
+  private readonly Client _client;
 
-    private readonly Client _client;
+  #region Свойства команд
 
-    public ClientProductViewModel(Client client)
-    {
-        _client = client;
+  public RelayCommand<Product> AddToBucketCommand { get; private set; }
+  public RelayCommand NavigateClientBasket { get; private set; }
 
-        NavigateClientBasket = new RelayCommand(NavigateClientBasketExecute);
-        AddToBucketCommand = new RelayCommand<Product>(AddToBucketCommandExecute);
+  #endregion
 
-        Products = new ObservableCollection<Product>(Context.Products.Where(product => product.ProductCount > 0)
-            .Include(c => c.Fabric).Include(c => c.ProductType));
-    }
+  /// <summary>
+  /// Конструктор по умолчанию
+  /// </summary>
+  /// <param name="client"></param>
+  public ClientProductViewModel(Client client)
+  {
+    _client = client;
 
-    private void NavigateClientBasketExecute()
-    {
-        Context.SaveChanges();
+    NavigateClientBasket = new RelayCommand(NavigateClientBasketExecute);
+    AddToBucketCommand = new RelayCommand<Product>(AddToBucketCommandExecute);
 
-        var mainWindow = Application.Current.MainWindow as MainWindow;
-        var clientBasketView = new ClientBasketView(Context.Clients.First(c => c.Id == _client.Id));
+    Products = new ObservableCollection<Product?>(Context.Products.Where(product => product.ProductCount > 0)
+      .Include(c => c.Fabric).Include(c => c.ProductType));
+  }
 
-        mainWindow?.MainFrame.NavigationService.Navigate(clientBasketView);
-    }
+  #region Реализация команд
 
-    private void AddToBucketCommandExecute(Product product)
-    {
-        Context.Clients.First(c => c.Id == _client.Id).Products.Add(product);
-    }
+  /// <summary>
+  /// Команда навигации
+  /// </summary>
+  private void NavigateClientBasketExecute()
+  {
+    Context.SaveChanges();
+
+    var mainWindow = Application.Current.MainWindow as MainView;
+    var clientBasketView = new ClientBasketView(Context.Clients.First(c => c.Id == _client.Id));
+
+    mainWindow?.MainFrame.NavigationService.Navigate(clientBasketView);
+  }
+
+  /// <summary>
+  /// Команда добавления в корзину
+  /// </summary>
+  /// <param name="product"></param>
+  private void AddToBucketCommandExecute(Product? product) =>
+    Context.Clients.First(c => c.Id == _client.Id).Products.Add(product);
+
+  #endregion
 }

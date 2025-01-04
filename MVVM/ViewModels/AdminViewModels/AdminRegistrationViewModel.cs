@@ -1,87 +1,115 @@
 using System.Windows;
 using sportShop.EntityFramework;
 using sportShop.EntityFramework.Models;
-using sportShop.Views.AdminPages;
+using sportShop.MVVM.RelayCommands;
+using sportShop.MVVM.Views;
 using AdminProductView = sportShop.MVVM.Views.AdminViews.AdminProductView;
 
 namespace sportShop.MVVM.ViewModels.AdminViewModels;
 
+/// <summary>
+/// Реализация ViewModel для администратора
+/// </summary>
 public sealed class AdminRegistrationViewModel : BaseViewModel
 {
-    private readonly Context _context;
+  #region Свойства
 
-    private string _login;
+  private readonly Context _context;
 
-    public string Login
+  private string _login;
+
+  public string Login
+  {
+    get => _login;
+    set
     {
-        get => _login;
-        set
-        {
-            _login = value;
-            OnPropertyChanged();
-        }
+      _login = value;
+      OnPropertyChanged(nameof(Login));
     }
+  }
 
-    private string _password;
+  private string _password;
 
-    public string Password
+  public string Password
+  {
+    get => _password;
+    set
     {
-        get => _password;
-        set
-        {
-            _password = value;
-            OnPropertyChanged();
-        }
+      _password = value;
+      OnPropertyChanged(nameof(Password));
     }
+  }
 
-    private string _submitPassword;
+  private string _submitPassword;
 
-    public string SubmitPassword
+  public string SubmitPassword
+  {
+    get => _submitPassword;
+    set
     {
-        get => _submitPassword;
-        set
-        {
-            _submitPassword = value;
-            OnPropertyChanged();
-        }
+      _submitPassword = value;
+      OnPropertyChanged(nameof(SubmitPassword));
     }
+  }
 
-    public RelayCommand RegistrationManagerCommand { get; set; }
-    public RelayCommand RegistrationAdministratorCommand { get; set; }
-    public RelayCommand NavigateToAdminProductPage { get; set; }
+  #endregion
 
-    public AdminRegistrationViewModel()
-    {
-        _context = new Context();
+  #region Свойства команд
 
-        _password = string.Empty;
-        _login = string.Empty;
-        _submitPassword = string.Empty;
+  public RelayCommand RegistrationManagerCommand { get; set; }
+  public RelayCommand RegistrationAdministratorCommand { get; set; }
+  public RelayCommand NavigateToAdminProductPage { get; set; }
 
-        RegistrationManagerCommand = new RelayCommand(RegistrationManagerCommandExecute);
-        RegistrationAdministratorCommand = new RelayCommand(RegistrationAdministratorCommandExecute);
-        NavigateToAdminProductPage = new RelayCommand(NavigateToAdminProductPageCommandExecute);
-    }
+  #endregion
 
-    private void NavigateToAdminProductPageCommandExecute()
-    {
-        _context.SaveChanges();
+  #region Реализация команд
 
-        var mainWindow = Application.Current.MainWindow as MainWindow;
-        mainWindow?.MainFrame.NavigationService.Navigate(new AdminProductView());
-    }
+  /// <summary>
+  /// Конструктор по умолчанию
+  /// </summary>
+  public AdminRegistrationViewModel()
+  {
+    _context = new Context();
 
-    private void RegistrationAdministratorCommandExecute()
-    {
-        _context.Administrators.Add(new Administrator() {Login = _login, Password = _password});
+    _password = string.Empty;
+    _login = string.Empty;
+    _submitPassword = string.Empty;
 
-        MessageBox.Show("Администартор зарегестрирован!");
-    }
+    RegistrationManagerCommand = new RelayCommand(RegistrationManagerCommandExecute);
+    RegistrationAdministratorCommand = new RelayCommand(RegistrationAdministratorCommandExecute);
+    NavigateToAdminProductPage = new RelayCommand(NavigateToAdminProductPageCommandExecute);
+  }
 
-    private void RegistrationManagerCommandExecute()
-    {
-        _context.Managers.Add(new Manager() {Login = _login, Password = _password});
+  /// <summary>
+  /// Команда навигации 
+  /// </summary>
+  private void NavigateToAdminProductPageCommandExecute()
+  {
+    _context.SaveChanges();
 
-        MessageBox.Show("Менеджер зарегестрирован!");
-    }
+    var mainWindow = Application.Current.MainWindow as MainView;
+    mainWindow?.MainFrame.NavigationService.Navigate(new AdminProductView());
+  }
+
+  /// <summary>
+  /// Команда регистрации администратора
+  /// </summary>
+  private void RegistrationAdministratorCommandExecute()
+  {
+    _context.Administrators.Add(new Administrator { Login = _login, Password = _password });
+
+    MessageBox.Show("Администратор зарегистрирован!");
+  }
+
+  /// <summary>
+  /// Команда регистрации менеджера
+  /// </summary>
+  private void RegistrationManagerCommandExecute()
+  {
+    _context.Managers.Add(new Manager() { Login = _login, Password = _password });
+
+    MessageBox.Show("Менеджер зарегистрирован!");
+  }
+
+  #endregion
 }
